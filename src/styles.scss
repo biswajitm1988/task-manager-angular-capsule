@@ -4,6 +4,7 @@ body {
   font-family: Roboto, Arial, sans-serif;
   margin: 0;
   padding-top: 70px;
+  padding-bottom: 70px;
 }
 
 .version-info {
@@ -17,4 +18,8 @@ mat-slider {
 
 .table tr {
   text-align: center;   
+}
+
+.table td {
+  vertical-align:middle;  
 }
