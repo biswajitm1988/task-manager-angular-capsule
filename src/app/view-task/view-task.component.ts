@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Task } from '../model/task';
 import { FilterPipe } from '../pipe/filter.pipe';
-import { DataService } from '../service/data.service';
 import { Router } from '@angular/router';
 import { TaskManagerService } from '../service/task-manager.service';
 import { LogService } from '../service/log.service';
@@ -20,7 +19,7 @@ export class ViewTaskComponent implements OnInit {
   errMsg: string;
   tasks: Task[];
   today: Date = new Date();
-  constructor(private log: LogService, private dataService: DataService, private taskManagerService: TaskManagerService, private router: Router) {
+  constructor(private log: LogService, private taskManagerService: TaskManagerService, private router: Router) {
     this.log.info("[ViewTaskComponent.constructor] today", this.today);
     this.taskManagerService.getAllTasksFromService().subscribe((tasks) => {
       this.tasks = tasks;
@@ -35,7 +34,6 @@ export class ViewTaskComponent implements OnInit {
 
   editTask(task: Task) {
     this.log.info("[ViewTaskComponent.editTask] Sending Data " + task);
-   // this.dataService.sendData(task);
     this.router.navigate(['/addTask',task.taskId]);
   }
 

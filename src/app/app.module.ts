@@ -16,7 +16,6 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { TaskFormComponent } from './task-form/task-form.component';
 import { FilterPipe } from './pipe/filter.pipe';
-import { DataService } from './service/data.service';
 import { TaskManagerService } from './service/task-manager.service';
 import { LogService } from './service/log.service';
 
@@ -47,7 +46,7 @@ const pathMappings : Routes = [
     MatSliderModule,
     HttpClientModule
   ],
-  providers: [DataService, TaskManagerService, LogService],
+  providers: [TaskManagerService, LogService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

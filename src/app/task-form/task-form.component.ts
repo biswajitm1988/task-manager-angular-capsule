@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Task } from '../model/task';
-import { DataService } from '../service/data.service';
 import { TaskManagerService } from '../service/task-manager.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ParentTask } from '../model/parent-task';
@@ -18,7 +17,7 @@ export class TaskFormComponent implements OnInit {
   errMsg: string;
   minStartDate: Date = new Date;
 
-  constructor(private log: LogService, private dataService: DataService, private taskManagerService: TaskManagerService, private router: Router, private route: ActivatedRoute, private location: Location) {
+  constructor(private log: LogService, private taskManagerService: TaskManagerService, private router: Router, private route: ActivatedRoute, private location: Location) {
 
   }
 
