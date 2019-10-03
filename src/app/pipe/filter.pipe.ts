@@ -9,23 +9,22 @@ import { Pipe, PipeTransform, Injector, Injectable } from '@angular/core';
 })
 export class FilterPipe implements PipeTransform {
   transform(tasks: any[], propertyName?: string, searchText?: string): any[] {
-    console.log("searchText >>" + searchText);
-    console.log("propertyName >>" + propertyName);
     if (!tasks) return [];
     if (!searchText) return tasks;
     return tasks.filter(task => {
-      console.log("here")
       switch (propertyName) {
         case 'priorityGt':
-          return task.priority > searchText
+          return task.priority >= searchText
         case 'priorityLt':
-          return task.priority < searchText
+          return task.priority <= searchText
         case 'startDateInput':
-          return task.startDate > new Date(searchText)
+          return  new Date(task.startDate) >= new Date(searchText)
         case 'endDateInput':
-          return task.endDate < new Date(searchText)
+          return  new Date(task.endDate) <= new Date(searchText)
+        case 'parentTaskSummary':
+          return task.parentTask.parentTaskSummary!='undefined' ? task.parentTask.parentTaskSummary.toLowerCase().indexOf(searchText.toLowerCase()) > -1 : false;
         default:
-          return task[propertyName].toLowerCase().indexOf(searchText.toLowerCase()) > -1
+          return task[propertyName]!='undefined' ? task[propertyName].toLowerCase().indexOf(searchText.toLowerCase()) > -1 : false;
       }
     }
     );

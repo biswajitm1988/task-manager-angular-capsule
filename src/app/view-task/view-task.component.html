@@ -5,28 +5,37 @@
     <h3>Task List</h3>
     <form ngNativeValidate>
         <div class="form-row">
+
             <div class="col">
-                <label>Task </label>
+                <div>
+                    <label>Task </label>
+                </div>
+                <div>
+                    <input class="form-control" name="taskSummarySearchKey" [(ngModel)]="taskSummarySearchKey" placeholder="Search By Task">
+                </div>
             </div>
             <div class="col">
-                <input name="taskSummarySearchKey" [(ngModel)]="taskSummarySearchKey">
-            </div>
-            <div class="col">
-                <label>Parent Task </label>
-            </div>
-            <div class="col"> <input name="parentTaskSearchKey" [(ngModel)]="parentTaskSearchKey">
+                <div>
+                    <label>Parent Task </label>
+                </div>
+                <div> <input class="form-control" name="parentTaskSearchKey" [(ngModel)]="parentTaskSearchKey"placeholder="Search By Parent Task">
+                </div>
             </div>
         </div>
         <div class="form-row">
             <div class="col">
-                <label>Priority From</label>
-            </div>
-            <div class="col"> <input name="priorityGt" [(ngModel)]="priorityGtSearchKey">
+                <div>
+                    <label>Priority From</label>
+                </div>
+                <div> <input class="form-control" name="priorityGt" [(ngModel)]="priorityGtSearchKey" placeholder="Search By Priority">
+                </div>
             </div>
             <div class="col">
-                <label>Priority To</label>
-            </div>
-            <div class="col"> <input name="priorityLt" [(ngModel)]="priorityLtSearchKey">
+                <div>
+                    <label>Priority To</label>
+                </div>
+                <div> <input class="form-control" name="priorityLt" [(ngModel)]="priorityLtSearchKey" placeholder="Search By Priority">
+                </div>
             </div>
         </div>
         <div class="form-row">
@@ -61,12 +70,12 @@
                 <th scope="col">Priority</th>
                 <th scope="col">Start Date</th>
                 <th scope="col">End Date</th>
-                <th scope="col" colspan="2"></th>
+                <th scope="col" colspan="2">Action</th>
             </tr>
         </thead>
         <tbody>
             <tr
-                *ngFor="let task of tasks | filter:'taskSummary':taskSummarySearchKey | filter: 'parentTask':parentTaskSearchKey | filter: 'priorityGt':priorityGtSearchKey | filter: 'priorityLt':priorityLtSearchKey| filter: 'startDateInput':startDateInput | filter: 'endDateInput':endDateInput">
+                *ngFor="let task of tasks | filter:'taskSummary':taskSummarySearchKey | filter: 'parentTaskSummary':parentTaskSearchKey | filter: 'priorityGt':priorityGtSearchKey | filter: 'priorityLt':priorityLtSearchKey| filter: 'startDateInput':startDateInput | filter: 'endDateInput':endDateInput">
                 <td>
                     <div class="card">
                         <div class="card-body">
@@ -80,7 +89,7 @@
                     <div class="card">
                         <div class="card-body">
                             <p class="card-text">
-                                {{task.parentTask}}
+                                {{task.parentTask.parentTaskSummary}}
                             </p>
                         </div>
                     </div>
@@ -90,8 +99,10 @@
                 <td>{{task.endDate | date:"MM/dd/yy"}}</td>
                 <td>
                     <div class="btn-group">
-                        <button class="btn btn-primary mr-1" (click)="editTask(task)">Edit</button>
-                        <button type="reset" class="btn btn-danger">End Task</button>
+                        <button class="btn btn-primary mr-1" (click)="editTask(task)"
+                            [disabled]="!isTaskEditable(task)">Edit</button>
+                        <button type="reset" class="btn btn-danger" (click)="endTask(task)"
+                            [disabled]="!isTaskEligibleToEnd(task)">End Task</button>
                     </div>
                 </td>
             </tr>

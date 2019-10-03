@@ -11,25 +11,24 @@ import { Title } from  '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AddTaskComponent } from './add-task/add-task.component';
 import { ViewTaskComponent } from './view-task/view-task.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { TaskFormComponent } from './task-form/task-form.component';
 import { FilterPipe } from './pipe/filter.pipe';
 import { DataService } from './service/data.service';
+import { TaskManagerService } from './service/task-manager.service';
+import { LogService } from './service/log.service';
 
 const pathMappings : Routes = [
-  {path:'', component: ViewTaskComponent },
-  { path: 'addTask', component: TaskFormComponent },
-  { path: 'saveTask', component: AddTaskComponent },
+  {path:'', component:TaskFormComponent },
+  { path: 'addTask/:id', component: TaskFormComponent },
   { path: 'viewTasks', component: ViewTaskComponent }
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    AddTaskComponent,
     ViewTaskComponent,
     HeaderComponent,
     FooterComponent,
@@ -48,8 +47,7 @@ const pathMappings : Routes = [
     MatSliderModule,
     HttpClientModule
   ],
-  entryComponents: [TaskFormComponent],
-  providers: [DataService],
+  providers: [DataService, TaskManagerService, LogService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

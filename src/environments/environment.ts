@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  REMOTE_SERVICE_HOST:  "http://local.rci.com",
+  REMOTE_SERVICE_PORT: "10010",
+  isDebugMode: true
 };
 
 /*
