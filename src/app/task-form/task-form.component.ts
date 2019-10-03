@@ -43,27 +43,26 @@ export class TaskFormComponent implements OnInit {
       this.task.parentTask = new ParentTask;
       this.isNew = true;
     }
-    this.log.info("[TaskFormComponent.initializeTask] Task is null ", isNull(this.task) + " isNew ", this.isNew);
   }
 
   saveTask() {
     this.log.info("[TaskFormComponent.saveTask] Save >> ", this.task, this.isNew);
     if (this.isNew) {
       this.taskManagerService.addTask(this.task).subscribe((task) => {
-        this.task = task;
-        this.taskManagerService.getAllTasksFromService().subscribe(tasks => {
-          this.taskManagerService.tasks = tasks;
-          this.router.navigate(['/viewTasks']);
-        });
+        this.navigateToViewComponent(task);
       });
     } else {
       this.taskManagerService.editTask(this.task).subscribe((task) => {
-        this.task = task;
-        this.taskManagerService.getAllTasksFromService().subscribe(tasks => {
-          this.taskManagerService.tasks = tasks;
-          this.router.navigate(['/viewTasks']);
-        });
+        this.navigateToViewComponent(task);
       });
     }
+  }
+  
+  navigateToViewComponent(task: any) {
+    this.task = task;
+    this.taskManagerService.getAllTasksFromService().subscribe(tasks => {
+      this.taskManagerService.tasks = tasks;
+      this.router.navigate(['/viewTasks']);
+    });
   }
 }

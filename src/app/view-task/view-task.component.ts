@@ -20,7 +20,6 @@ export class ViewTaskComponent implements OnInit {
   tasks: Task[];
   today: Date;
   constructor(private log: LogService, private taskManagerService: TaskManagerService, private router: Router) {
-    this.log.info("[ViewTaskComponent.constructor] today", this.today);
     this.taskManagerService.getAllTasksFromService().subscribe((tasks) => {
       this.tasks = tasks;
       this.log.info("[ViewTaskComponent.constructor] View On Init. Tasks", this.tasks);
