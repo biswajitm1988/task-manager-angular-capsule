@@ -28,28 +28,24 @@ export class TaskManagerService {
     return this.tasks;
   }
 
-  addTask(task: Task): Observable<Task[]> {
+  addTask(task: Task): Observable<Task> {
     this.log.info("[TaskManagerService.addTask] URL >> ", this.serviceURL + "/task/manager/addTask" + "  Task ", task);
     return this.http.post(this.serviceURL + "/task/manager/addTask", task)
       .pipe(map(result => {
-        const tasks = <Task[]>result;
-        tasks.forEach(task => {
-          task.startDate = new Date(task.startDate);
-          task.endDate = task.endDate != null ? new Date(task.endDate) : task.endDate;
-        });
-        return tasks;
+        const task = <Task>result;
+        task.startDate = new Date(task.startDate);
+        task.endDate = task.endDate != null ? new Date(task.endDate) : task.endDate;
+        return task;
       }));
   }
 
-  editTask(task: Task): Observable<Task[]> {
+  editTask(task: Task): Observable<Task> {
     this.log.info("[TaskManagerService.editTask] URL >> ", this.serviceURL + "/task/manager/updateTask" + "  Task ", task);
     return this.http.put(this.serviceURL + "/task/manager/updateTask", task).pipe(map(result => {
-      const tasks = <Task[]>result;
-      tasks.forEach(task => {
-        task.startDate = new Date(task.startDate);
-        task.endDate = task.endDate != null ? new Date(task.endDate) : task.endDate;
-      });
-      return tasks;
+      const task = <Task>result;
+      task.startDate = new Date(task.startDate);
+      task.endDate = task.endDate != null ? new Date(task.endDate) : task.endDate;
+      return task;
     }));
   }
 

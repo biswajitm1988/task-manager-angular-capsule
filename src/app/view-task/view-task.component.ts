@@ -18,7 +18,7 @@ export class ViewTaskComponent implements OnInit {
   task: Task;
   errMsg: string;
   tasks: Task[];
-  today: Date = new Date();
+  today: Date;
   constructor(private log: LogService, private taskManagerService: TaskManagerService, private router: Router) {
     this.log.info("[ViewTaskComponent.constructor] today", this.today);
     this.taskManagerService.getAllTasksFromService().subscribe((tasks) => {
@@ -28,6 +28,7 @@ export class ViewTaskComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.today = new Date;
     this.task = new Task;
     this.task.parentTask = new ParentTask;
   }
@@ -38,10 +39,14 @@ export class ViewTaskComponent implements OnInit {
   }
 
   endTask(task: Task) {
+    task.endDate = this.today;
     this.log.info("[ViewTaskComponent.endTask] Sending Data ", task);
-    this.taskManagerService.editTask(task).subscribe((tasks) => {
-      this.tasks = tasks;
-      this.router.navigate(['/viewTasks']);
+    this.taskManagerService.editTask(task).subscribe((task) => {
+      this.task = task;
+      this.taskManagerService.getAllTasksFromService().subscribe(tasks => {
+        this.tasks = tasks;
+        this.router.navigate(['/viewTasks']);
+      });
     });
   }
 
@@ -57,6 +62,8 @@ export class ViewTaskComponent implements OnInit {
     if (moment(task.startDate).isBefore(this.today, 'day') && (task.endDate != 'undefined' && task.endDate != null && moment(task.endDate).isSameOrBefore(this.today, 'day'))) {
       return false;
     }else if(moment(task.startDate).isAfter(this.today, 'day') && (task.endDate == null || moment(task.endDate).isAfter(this.today, 'day'))){
+      return false;
+    }else if(moment(task.startDate).isSame(this.today, 'day') && moment(task.endDate).isSame(this.today, 'day')){
       return false;
     }
     return true;

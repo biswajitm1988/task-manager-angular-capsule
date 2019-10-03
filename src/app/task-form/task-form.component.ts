@@ -5,6 +5,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ParentTask } from '../model/parent-task';
 import { LogService } from '../service/log.service';
 import { Location } from '@angular/common';
+import { isEmpty } from 'rxjs/operators';
+import { isNull } from 'util';
 
 @Component({
   selector: 'app-task-form',
@@ -22,34 +24,45 @@ export class TaskFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.initializeTask();
     const id = this.route.snapshot.paramMap.get("id");
     if (id != "" && id != null) {
+      this.isNew = false;
       this.log.info("[TaskFormComponent.ngOnInit] Id >> ", id);
-      this.taskManagerService.getTaskByIdFromService(id).subscribe(task=>{
-        this.task =task;
+      this.taskManagerService.getTaskByIdFromService(id).subscribe(task => {
+        this.task = task;
         this.log.info("[TaskFormComponent.ngOnInit] Data fetched >> ", this.task);
+        this.initializeTask();
       });
-      }
-    this.initializeTask(false);
+    }
   }
 
-  initializeTask(isNew:boolean) {
-    if (isNew || this.task == null) {
+  initializeTask() {
+    if (this.task == null) {
       this.task = new Task;
       this.task.parentTask = new ParentTask;
       this.isNew = true;
     }
+    this.log.info("[TaskFormComponent.initializeTask] Task is null ", isNull(this.task) + " isNew ", this.isNew);
   }
 
   saveTask() {
     this.log.info("[TaskFormComponent.saveTask] Save >> ", this.task, this.isNew);
     if (this.isNew) {
-      this.taskManagerService.addTask(this.task).subscribe((tasks) => {
-        this.router.navigate(['/viewTasks']);
+      this.taskManagerService.addTask(this.task).subscribe((task) => {
+        this.task = task;
+        this.taskManagerService.getAllTasksFromService().subscribe(tasks => {
+          this.taskManagerService.tasks = tasks;
+          this.router.navigate(['/viewTasks']);
+        });
       });
     } else {
-      this.taskManagerService.editTask(this.task).subscribe((tasks) => {
-        this.router.navigate(['/viewTasks']);
+      this.taskManagerService.editTask(this.task).subscribe((task) => {
+        this.task = task;
+        this.taskManagerService.getAllTasksFromService().subscribe(tasks => {
+          this.taskManagerService.tasks = tasks;
+          this.router.navigate(['/viewTasks']);
+        });
       });
     }
   }
