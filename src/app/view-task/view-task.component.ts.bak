@@ -15,7 +15,7 @@ import * as moment from 'moment';
 })
 export class ViewTaskComponent implements OnInit {
 
-  task: Task;
+  @Input() task: Task;
   errMsg: string;
   tasks: Task[];
   today: Date;

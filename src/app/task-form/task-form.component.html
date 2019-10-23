@@ -3,10 +3,10 @@
 </p>
 <section *ngIf="errMsg==null" class="container" style="width: 100%">
     <h3>{{isNew?"Add":"Edit"}} Task</h3>
-    <form ngNativeValidate>
+    <form ngNativeValidate #form>
         <div class="form-group">
             <label>Task</label>
-            <input type="text" name="taskSummary" [(ngModel)]="task.taskSummary" class="form-control"
+            <input type="text" id ="taskSummary" name="taskSummary" [(ngModel)]="task.taskSummary" class="form-control"
                 placeholder="Enter Task Summary" required />
         </div>
         <div class="form-group">
@@ -28,18 +28,19 @@
         <div class="form-group col">
             <mat-form-field class="mr-4">
                 <input matInput [matDatepicker]="startDate" [min]="minStartDate" name="startDate"
-                     [(ngModel)]="task.startDate" placeholder="Start Date" disabled required>
+                    [(ngModel)]="task.startDate" placeholder="Start Date" disabled required>
                 <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
                 <mat-datepicker #startDate [startAt]="minStartDate" disabled="false"></mat-datepicker>
             </mat-form-field>
             <mat-form-field>
-                <input matInput [matDatepicker]="endDate" name="endDate" [min]="task.startDate" [(ngModel)]="task.endDate" placeholder="End Date" disabled>
+                <input matInput [matDatepicker]="endDate" name="endDate" [min]="task.startDate"
+                    [(ngModel)]="task.endDate" placeholder="End Date" disabled>
                 <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
                 <mat-datepicker #endDate disabled="false"></mat-datepicker>
             </mat-form-field>
         </div>
         <div class="btn-group">
-            <button class="btn btn-primary mr-1" (click)="saveTask()">{{isNew?"Add":"Update"}}</button>
+            <button type="submit" class="btn btn-primary mr-1"  (click)="form.checkValidity()? saveTask() : null">{{isNew?"Add":"Update"}}</button>
             <button type="reset" class="btn btn-secondary">Reset</button>
         </div>
     </form>

@@ -22,7 +22,7 @@ export class FilterPipe implements PipeTransform {
         case 'endDateInput':
           return  new Date(task.endDate) <= new Date(searchText)
         case 'parentTaskSummary':
-          return task.parentTask.parentTaskSummary!='undefined' ? task.parentTask.parentTaskSummary.toLowerCase().indexOf(searchText.toLowerCase()) > -1 : false;
+          return (task.parentTask.parentTaskSummary!=null && task.parentTask.parentTaskSummary!='undefined') ? task.parentTask.parentTaskSummary.toLowerCase().indexOf(searchText.toLowerCase()) > -1 : false;
         default:
           return task[propertyName]!='undefined' ? task[propertyName].toLowerCase().indexOf(searchText.toLowerCase()) > -1 : false;
       }

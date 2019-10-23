@@ -7,7 +7,6 @@ import { RouterModule, Routes } from '@angular/router';
 import {MatNativeDateModule} from '@angular/material/core';
 import {DateMaterialModule} from './material-module';
 import {MatSliderModule} from '@angular/material/slider';
-import { Title } from  '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,8 +18,8 @@ import { FilterPipe } from './pipe/filter.pipe';
 import { TaskManagerService } from './service/task-manager.service';
 import { LogService } from './service/log.service';
 
-const pathMappings : Routes = [
-  {path:'', component:TaskFormComponent },
+const pathMappings: Routes = [
+  {path: '', component: TaskFormComponent },
   { path: 'addTask/:id', component: TaskFormComponent },
   { path: 'viewTasks', component: ViewTaskComponent }
 ];
