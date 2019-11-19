@@ -27,9 +27,9 @@ export class ViewTaskComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.today = new Date;
-    this.task = new Task;
-    this.task.parentTask = new ParentTask;
+    this.today = new Date();
+    this.task = new Task();
+    this.task.parentTask = new ParentTask();
   }
 
   editTask(task: Task) {
@@ -63,7 +63,7 @@ export class ViewTaskComponent implements OnInit {
     }
     return false;
   }
-  
+
   isTaskEligibleToEnd(task): boolean {
     if (task.isTaskDone === 'Y') {
       return false;

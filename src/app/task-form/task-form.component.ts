@@ -17,21 +17,24 @@ export class TaskFormComponent implements OnInit {
   isNew: boolean;
   task: Task;
   errMsg: string;
-  minStartDate: Date = new Date;
+  minStartDate: Date = new Date();
 
-  constructor(private log: LogService, private taskManagerService: TaskManagerService, private router: Router, private route: ActivatedRoute, private location: Location) {
+  constructor(private log: LogService,
+              private taskManagerService: TaskManagerService, 
+              private router: Router, private route: ActivatedRoute, 
+              private location: Location) {
 
   }
 
   ngOnInit() {
     this.initializeTask();
-    const id = this.route.snapshot.paramMap.get("id");
-    if (id != "" && id != null) {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id != '' && id != null) {
       this.isNew = false;
-      this.log.info("[TaskFormComponent.ngOnInit] Id >> ", id);
+      this.log.info('[TaskFormComponent.ngOnInit] Id >> ', id);
       this.taskManagerService.getTaskByIdFromService(id).subscribe(task => {
         this.task = task;
-        this.log.info("[TaskFormComponent.ngOnInit] Data fetched >> ", this.task);
+        this.log.info('[TaskFormComponent.ngOnInit] Data fetched >> ', this.task);
         this.initializeTask();
       });
     }
@@ -39,14 +42,14 @@ export class TaskFormComponent implements OnInit {
 
   initializeTask() {
     if (this.task == null) {
-      this.task = new Task;
-      this.task.parentTask = new ParentTask;
+      this.task = new Task();
+      this.task.parentTask = new ParentTask();
       this.isNew = true;
     }
   }
 
   saveTask() {
-    this.log.info("[TaskFormComponent.saveTask] Save >> ", this.task, this.isNew);
+    this.log.info('[TaskFormComponent.saveTask] Save >> ', this.task, this.isNew);
     if (this.isNew) {
       this.taskManagerService.addTask(this.task).subscribe((task) => {
         this.navigateToViewComponent(task);
@@ -57,7 +60,7 @@ export class TaskFormComponent implements OnInit {
       });
     }
   }
-  
+
   navigateToViewComponent(task: any) {
     this.task = task;
     this.taskManagerService.getAllTasksFromService().subscribe(tasks => {

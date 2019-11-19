@@ -1,3 +1,3 @@
 export class ParentTask {
-    public parentTaskSummary:string;
+    public parentTaskSummary: string;
 }
