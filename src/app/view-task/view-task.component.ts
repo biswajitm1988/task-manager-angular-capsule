@@ -22,7 +22,7 @@ export class ViewTaskComponent implements OnInit {
   constructor(private log: LogService, private taskManagerService: TaskManagerService, private router: Router) {
     this.taskManagerService.getAllTasksFromService().subscribe((tasks) => {
       this.tasks = tasks;
-      this.log.info("[ViewTaskComponent.constructor] View On Init. Tasks", this.tasks);
+      this.log.info('[ViewTaskComponent.constructor] View On Init. Tasks', this.tasks);
     });
   }
 
@@ -31,15 +31,16 @@ export class ViewTaskComponent implements OnInit {
     this.task = new Task;
     this.task.parentTask = new ParentTask;
   }
-  
+
   editTask(task: Task) {
-    this.log.info("[ViewTaskComponent.editTask] Sending Data " + task);
+    this.log.info('[ViewTaskComponent.editTask] Sending Data ' + task);
     this.router.navigate(['/addTask', task.taskId]);
   }
 
   endTask(task: Task) {
     task.endDate = this.today;
-    this.log.info("[ViewTaskComponent.endTask] Sending Data ", task);
+    task.isTaskDone = 'Y';
+    this.log.info('[ViewTaskComponent.endTask] Sending Data ', task);
     this.taskManagerService.editTask(task).subscribe((task) => {
       this.task = task;
       this.taskManagerService.getAllTasksFromService().subscribe(tasks => {
@@ -50,19 +51,28 @@ export class ViewTaskComponent implements OnInit {
   }
 
   isTaskEditable(task): boolean {
-    if (moment(task.startDate).isBefore(this.today, 'day') && (task.endDate != 'undefined' && task.endDate != null && moment(task.endDate).isSameOrBefore(this.today, 'day'))) {
+    if (task.isTaskDone === 'Y') {
       return false;
-    } else if (moment(task.startDate).isSameOrAfter(this.today, 'day') || (task.endDate == null || moment(task.endDate).isAfter(this.today, 'day'))) {
+    }
+    if (moment(task.startDate).isBefore(this.today, 'day')
+              && (task.endDate !== 'undefined' && task.endDate != null && moment(task.endDate).isSameOrBefore(this.today, 'day'))) {
+      return false;
+    } else if (moment(task.startDate).isSameOrAfter(this.today, 'day')
+              || (task.endDate == null || moment(task.endDate).isAfter(this.today, 'day'))) {
       return true;
     }
     return false;
   }
+  
   isTaskEligibleToEnd(task): boolean {
-    if (moment(task.startDate).isBefore(this.today, 'day') && (task.endDate != 'undefined' && task.endDate != null && moment(task.endDate).isSameOrBefore(this.today, 'day'))) {
+    if (task.isTaskDone === 'Y') {
       return false;
-    } else if (moment(task.startDate).isAfter(this.today, 'day') && (task.endDate == null || moment(task.endDate).isAfter(this.today, 'day'))) {
+    }
+    if (moment(task.startDate).isBefore(this.today, 'day')
+            && (task.endDate !== 'undefined' && task.endDate != null && moment(task.endDate).isBefore(this.today, 'day'))) {
       return false;
-    } else if (moment(task.startDate).isSame(this.today, 'day') && moment(task.endDate).isSame(this.today, 'day')) {
+    } else if (moment(task.startDate).isAfter(this.today, 'day')
+              && (task.endDate == null || moment(task.endDate).isAfter(this.today, 'day'))) {
       return false;
     }
     return true;
