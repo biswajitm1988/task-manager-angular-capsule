@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as moment from 'moment';
 import { Task } from '../model/task';
 import { Router } from '@angular/router';
@@ -14,6 +14,8 @@ export class TaskDetailComponent implements OnInit {
   @Input() task: Task;
   today: Date;
   tasks: Task[];
+  @Output() taskUpdated = new EventEmitter<any>();
+
   constructor(private log: LogService, private taskManagerService: TaskManagerService, private router: Router) {
   }
 
@@ -58,12 +60,8 @@ export class TaskDetailComponent implements OnInit {
     task.endDate = this.today;
     task.isTaskDone = 'Y';
     this.log.info('[ViewTaskComponent.endTask] Sending Data ', task);
-    this.taskManagerService.editTask(task).subscribe((task) => {
-      this.task = task;
-      this.taskManagerService.getAllTasksFromService().subscribe(tasks => {
-        this.tasks = tasks;
-        this.router.navigate(['/viewTasks']);
-      });
+    this.taskManagerService.editTask(task).subscribe(() => {
+      this.taskUpdated.emit();
     });
   }
 

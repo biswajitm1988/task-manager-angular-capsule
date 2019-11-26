@@ -77,6 +77,6 @@
             </tr>
         </thead>
     </table>
-    <app-task-detail *ngFor="let task of tasks | filter:'taskSummary':searchTask.taskSummary | filter: 'parentTaskSummary':searchTask.parentTask | filter: 'priorityGt':searchTask.priorityGt | filter: 'priorityLt':searchTask.priorityLt| filter: 'startDateInput':searchTask.startDate | filter: 'endDateInput':searchTask.endDate"
+    <app-task-detail (taskAdded) = "getAllTasks()" (taskUpdated) = "getAllTasks()" *ngFor="let task of tasks | filter:'taskSummary':searchTask.taskSummary | filter: 'parentTaskSummary':searchTask.parentTask | filter: 'priorityGt':searchTask.priorityGt | filter: 'priorityLt':searchTask.priorityLt| filter: 'startDateInput':searchTask.startDate | filter: 'endDateInput':searchTask.endDate"
         [task]="task"></app-task-detail>
 </section>
