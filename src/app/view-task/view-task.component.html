@@ -11,37 +11,39 @@
                     <label>Task </label>
                 </div>
                 <div>
-                    <input class="form-control" name="taskSummarySearchKey" [(ngModel)]="taskSummarySearchKey" placeholder="Search By Task">
+                    <input class="form-control" name="taskSummarySearchKey" [(ngModel)]="searchTask.taskSummary" placeholder="Search By Task">
                 </div>
             </div>
             <div class="col">
                 <div>
                     <label>Parent Task </label>
                 </div>
-                <div> <input class="form-control" name="parentTaskSearchKey" [(ngModel)]="parentTaskSearchKey"placeholder="Search By Parent Task">
+                <div> <input class="form-control" name="parentTaskSearchKey" [(ngModel)]="searchTask.parentTask"placeholder="Search By Parent Task">
                 </div>
             </div>
         </div>
+        <hr>
         <div class="form-row">
             <div class="col">
                 <div>
                     <label>Priority From</label>
                 </div>
-                <div> <input class="form-control" name="priorityGt" [(ngModel)]="priorityGtSearchKey" placeholder="Search By Priority">
+                <div> <input class="form-control" name="priorityGt" [(ngModel)]="searchTask.priorityGt" placeholder="Search By Priority">
                 </div>
             </div>
             <div class="col">
                 <div>
                     <label>Priority To</label>
                 </div>
-                <div> <input class="form-control" name="priorityLt" [(ngModel)]="priorityLtSearchKey" placeholder="Search By Priority">
+                <div> <input class="form-control" name="priorityLt" [(ngModel)]="searchTask.priorityLt" placeholder="Search By Priority">
                 </div>
             </div>
         </div>
+        <hr>
         <div class="form-row">
             <div class="col">
                 <mat-form-field>
-                    <input matInput [matDatepicker]="startDateDP" name="startDateInput" [(ngModel)]="startDateInput"
+                    <input matInput [matDatepicker]="startDateDP" name="startDateInput" [(ngModel)]="searchTask.startDate"
                         placeholder="Start Date">
                     <mat-datepicker-toggle matSuffix [for]="startDateDP"></mat-datepicker-toggle>
                     <mat-datepicker #startDateDP></mat-datepicker>
@@ -51,18 +53,19 @@
             </div>
             <div class="col">
                 <mat-form-field>
-                    <input matInput [matDatepicker]="endDateDP" name="endDateInput" [(ngModel)]="endDateInput"
+                    <input matInput [matDatepicker]="endDateDP" name="endDateInput" [(ngModel)]="searchTask.endDate"
                         placeholder="End Date">
                     <mat-datepicker-toggle matSuffix [for]="endDateDP"></mat-datepicker-toggle>
                     <mat-datepicker #endDateDP></mat-datepicker>
                 </mat-form-field>
             </div>
-            <div class="col">
+            <div class="col"> 
             </div>
         </div>
+        <button type="reset" class="btn btn-secondary pull-right">Reset</button>
     </form>
-
-    <table class="table">
+    <hr>
+    <table class="table" style="table-layout:fixed">
         <thead class="thead-light">
             <tr>
                 <th scope="col">Task</th>
@@ -73,39 +76,7 @@
                 <th scope="col" colspan="2">Action</th>
             </tr>
         </thead>
-        <tbody>
-            <tr
-                *ngFor="let task of tasks | filter:'taskSummary':taskSummarySearchKey | filter: 'parentTaskSummary':parentTaskSearchKey | filter: 'priorityGt':priorityGtSearchKey | filter: 'priorityLt':priorityLtSearchKey| filter: 'startDateInput':startDateInput | filter: 'endDateInput':endDateInput">
-                <td>
-                    <div class="card">
-                        <div class="card-body">
-                            <p class="card-text">
-                                {{task.taskSummary}}
-                            </p>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="card">
-                        <div class="card-body">
-                            <p class="card-text">
-                                {{task.parentTask.parentTaskSummary}}
-                            </p>
-                        </div>
-                    </div>
-                </td>
-                <td>{{task.priority}}</td>
-                <td>{{task.startDate | date:"MM/dd/yy"}}</td>
-                <td>{{task.endDate | date:"MM/dd/yy"}}</td>
-                <td>
-                    <div class="btn-group">
-                        <button class="btn btn-primary mr-1" (click)="editTask(task)"
-                            [disabled]="!isTaskEditable(task)">Edit</button>
-                        <button type="reset" class="btn btn-danger" (click)="endTask(task)"
-                            [disabled]="!isTaskEligibleToEnd(task)">End Task</button>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
     </table>
+    <app-task-detail *ngFor="let task of tasks | filter:'taskSummary':searchTask.taskSummary | filter: 'parentTaskSummary':searchTask.parentTask | filter: 'priorityGt':searchTask.priorityGt | filter: 'priorityLt':searchTask.priorityLt| filter: 'startDateInput':searchTask.startDate | filter: 'endDateInput':searchTask.endDate"
+        [task]="task"></app-task-detail>
 </section>

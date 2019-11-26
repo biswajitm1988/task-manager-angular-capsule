@@ -17,6 +17,7 @@ import { TaskFormComponent } from './task-form/task-form.component';
 import { FilterPipe } from './pipe/filter.pipe';
 import { TaskManagerService } from './service/task-manager.service';
 import { LogService } from './service/log.service';
+import { TaskDetailComponent } from './task-detail/task-detail.component';
 
 const pathMappings: Routes = [
   {path: '', component: TaskFormComponent },
@@ -31,7 +32,8 @@ const pathMappings: Routes = [
     HeaderComponent,
     FooterComponent,
     TaskFormComponent,
-    FilterPipe
+    FilterPipe,
+    TaskDetailComponent
   ],
   imports: [
     BrowserModule,

@@ -8,4 +8,6 @@ export class Task {
     public startDate: Date;
     public endDate: Date;
     public isTaskDone: string;
+    public priorityLt: number;
+    public priorityGt: number;
 }
